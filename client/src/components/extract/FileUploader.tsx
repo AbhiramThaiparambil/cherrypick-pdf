@@ -1,8 +1,10 @@
 import { CloudUpload, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils"; // Standard Shadcn utility
+import { cn } from "@/lib/utils";
+import { useRef } from "react";
 
 interface FileUploaderProps {
+  setUploadPdf: (file: File[]) => void;
   isDragging: boolean;
   onDragOver: (e: React.DragEvent) => void;
   onDragLeave: () => void;
@@ -10,11 +12,20 @@ interface FileUploaderProps {
 }
 
 export function FileUploader({
+  setUploadPdf,
   isDragging,
   onDragOver,
   onDragLeave,
   onDrop,
 }: FileUploaderProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const fileUploadButton = () => {
+    if (inputRef?.current) {
+      inputRef.current.click();
+    }
+  };
+
   return (
     <section
       onDragOver={onDragOver}
@@ -48,11 +59,32 @@ export function FileUploader({
         </p>
       </div>
 
-      {/* Action Button */}
-      <Button className="mt-2 gap-2 rounded-xl px-6 shadow-lg">
+      <Button
+        className="mt-2 gap-2 rounded-xl px-6 shadow-lg"
+        onClick={fileUploadButton}
+      >
         <Upload size={16} />
         Browse Files
       </Button>
+
+      <input
+        type="file"
+        ref={inputRef}
+        className="hidden"
+        onChange={(e) => {
+          if (e.target.files) {
+            const uploadFile = Array.from(e.target.files);
+            const pdfFile = uploadFile.find((d) => d.type == "application/pdf");
+            if (pdfFile) {
+              setUploadPdf([pdfFile]);
+            } else {
+              alert("no pdf ");
+            }
+          }
+
+          console.log(e.target.files);
+        }}
+      />
     </section>
   );
 }

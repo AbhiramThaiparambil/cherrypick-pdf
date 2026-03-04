@@ -5,131 +5,11 @@
 // export default ExtractPage;
 
 import { useState } from "react";
-import {
-  FileText,
-  Upload,
-  CloudUpload,
-  Sun,
-  Moon,
-  CheckSquare,
-  Square,
-  ChevronLeft,
-  ChevronRight,
-  Scissors,
-  FilePlus2,
-  LayoutGrid,
-  Settings,
-  LogIn,
-  X,
-  Check,
-} from "lucide-react";
+
 import Sidebar from "@/components/extract/Sidebar";
 import { FileUploader } from "@/components/extract/FileUploader";
 
 // ─── Sample Data ──────────────────────────────────────────────────────────────
-
-const SAMPLE_PDFS = [
-  {
-    id: 1,
-    name: "Annual_Report_2023.pdf",
-    date: "Oct 12, 2023",
-    pages: 6,
-    size: "4.2 MB",
-    icon: "report",
-  },
-  {
-    id: 2,
-    name: "Product_Specs_V2.pdf",
-    date: "Oct 10, 2023",
-    pages: 9,
-    size: "2.8 MB",
-    icon: "specs",
-  },
-  {
-    id: 3,
-    name: "Marketing_Brief.pdf",
-    date: "Oct 05, 2023",
-    pages: 4,
-    size: "1.1 MB",
-    icon: "brief",
-  },
-  {
-    id: 4,
-    name: "Q3_Financial_Summary.pdf",
-    date: "Sep 28, 2023",
-    pages: 12,
-    size: "6.7 MB",
-    icon: "report",
-  },
-  {
-    id: 5,
-    name: "User_Research_Deck.pdf",
-    date: "Sep 15, 2023",
-    pages: 18,
-    size: "9.3 MB",
-    icon: "brief",
-  },
-];
-
-const PAGE_THUMBNAILS = [
-  {
-    id: 1,
-    label: "Page 1",
-    type: "text-heavy",
-    lines: [6, 5, 4, 5, 3],
-  },
-  {
-    id: 2,
-    label: "Page 2",
-    type: "mixed",
-    lines: [3, 4, 5, 3],
-  },
-  {
-    id: 3,
-    label: "Page 3",
-    type: "image-text",
-    lines: [2, 3],
-    hasImage: true,
-  },
-  {
-    id: 4,
-    label: "Page 4",
-    type: "chart",
-    hasCircle: true,
-    lines: [3, 2],
-  },
-  {
-    id: 5,
-    label: "Page 5",
-    type: "text",
-    lines: [5, 4, 3],
-  },
-  {
-    id: 6,
-    label: "Page 6",
-    type: "text-dense",
-    lines: [6, 6, 5, 6],
-  },
-  {
-    id: 7,
-    label: "Page 7",
-    type: "mixed",
-    lines: [3, 5, 4],
-  },
-  {
-    id: 8,
-    label: "Page 8",
-    type: "image",
-    hasImage: true,
-    lines: [2],
-  },
-  {
-    id: 9,
-    label: "Page 9",
-    type: "text",
-    lines: [4, 5, 3, 4],
-  },
-];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -250,7 +130,8 @@ const PAGE_THUMBNAILS = [
 
 export default function CherryPickPDF() {
   const [isDragging, setIsDragging] = useState(false);
-
+  const [uploadPdf, setUploadPdf] = useState<File[]>();
+  console.log(uploadPdf);
   return (
     <div
       className={`min-h-screen font-sans transition-colors duration-300 bg-background`}
@@ -258,16 +139,42 @@ export default function CherryPickPDF() {
       <div className="flex h-[calc(100vh-56px)]">
         <Sidebar />
         <main className="flex-1 overflow-y-auto px-8 py-7 flex flex-col gap-7">
+          {uploadPdf && uploadPdf?.length > 0 && (
+            <div className="flex ">
+              {uploadPdf.map((d, i) => {
+                const src = URL.createObjectURL(d);
+                return (
+                  <>
+                    <iframe key={i} src={src} width="20%" height="100"></iframe>
+                  </>
+                );
+              })}
+            </div>
+          )}
+
           <FileUploader
+            setUploadPdf={(files: File[]) => setUploadPdf(files)}
             isDragging={isDragging}
             onDragOver={(e) => {
               e.preventDefault();
+
               setIsDragging(true);
             }}
             onDragLeave={() => setIsDragging(false)}
             onDrop={(e) => {
               e.preventDefault();
-              setIsDragging(false);
+              const filesArray = Array.from(e.dataTransfer.files);
+
+              if (filesArray.length > 0) {
+                const pdfFiles = filesArray.find(
+                  (d) => d.type === "application/pdf",
+                );
+                if (pdfFiles) {
+                  setUploadPdf(filesArray);
+                } else {
+                  alert("no PDF FIles ");
+                }
+              }
             }}
           />
         </main>
