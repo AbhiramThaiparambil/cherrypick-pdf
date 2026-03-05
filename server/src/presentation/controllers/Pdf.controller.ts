@@ -22,9 +22,9 @@ export class PdfController {
 
       const result = await this.uploadPdfUsecase.execute({
         file: req.file,
-        userId: "001",
+        userId: "69918dc54e619eb2a9a72645",
       });
-
+      console.log(result);
       res.status(200).json(result);
     } catch (error) {
       console.error("Upload PDF error:", error);

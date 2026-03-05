@@ -5,3 +5,7 @@ export const SERVICE_TOKEN = {
 export const USECASE_TOKEN = {
   UPLOAD_PDF_USECASE: "IUploadPdfUsecase",
 };
+
+export const REPOSITORY_TOKEN = {
+  PDF_REPOSITORY: "IPdfRepository",
+};
