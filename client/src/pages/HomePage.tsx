@@ -4,10 +4,12 @@
 
 // export default ExtractPage;
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Sidebar from "@/components/extract/Sidebar";
 import { FileUploader } from "@/components/extract/FileUploader";
+import { toast } from "sonner";
+import { createPdf } from "@/services/pdfservices";
 
 // ─── Sample Data ──────────────────────────────────────────────────────────────
 
@@ -128,10 +130,39 @@ import { FileUploader } from "@/components/extract/FileUploader";
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function CherryPickPDF() {
+export default function HomePage() {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadPdf, setUploadPdf] = useState<File[]>();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   console.log(uploadPdf);
+
+  useEffect(() => {
+    if (uploadPdf && uploadPdf?.length > 0) {
+      uploadPdfToServer();
+    }
+  }, [uploadPdf]);
+
+  const uploadPdfToServer = async () => {
+    if (!uploadPdf || uploadPdf.length === 0) return;
+
+    try {
+      setIsUploading(true);
+
+      const res = await toast.promise(createPdf(uploadPdf[0]), {
+        loading: "Uploading PDF...",
+        success: "Upload complete",
+        error: "Upload failed",
+      });
+      // if(res.status===200){
+
+      // }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <div
       className={`min-h-screen font-sans transition-colors duration-300 bg-background`}
@@ -153,6 +184,7 @@ export default function CherryPickPDF() {
           )}
 
           <FileUploader
+            isUploading={isUploading}
             setUploadPdf={(files: File[]) => setUploadPdf(files)}
             isDragging={isDragging}
             onDragOver={(e) => {
@@ -172,7 +204,7 @@ export default function CherryPickPDF() {
                 if (pdfFiles) {
                   setUploadPdf(filesArray);
                 } else {
-                  alert("no PDF FIles ");
+                  toast.error("Please select a PDF file");
                 }
               }
             }}

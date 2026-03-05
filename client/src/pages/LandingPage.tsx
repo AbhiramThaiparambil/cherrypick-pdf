@@ -1,7 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import PdfIcon from "/PdfIcon.svg";
+import { Link } from "react-router";
+import { APPROUTES } from "@/constant/routes";
 export default function LandingPage() {
   return (
     <div className=" text-foreground h-full">
@@ -30,29 +32,20 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* Center Graphic */}
             <div className="flex justify-center h-72">
               <img src={PdfIcon} alt="" />
             </div>
 
-            {/* Right CTA Card */}
             <div className="flex flex-col gap-4">
-              <Button
-                size="lg"
-                className="group w-full bg-primary hover:bg-primary/45"
-              >
-                Get Started Free
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-
-              <div className="flex justify-center gap-4 text-[10px] uppercase tracking-wider text-slate-500 font-bold">
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="h-3 w-3 " /> No account
-                </span>
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="h-3 w-3 " /> Unlimited
-                </span>
-              </div>
+              <Link to={APPROUTES.Home}>
+                <Button
+                  size="lg"
+                  className="group w-full bg-primary hover:bg-primary/45"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

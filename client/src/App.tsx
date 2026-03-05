@@ -1,15 +1,16 @@
 import { Route, Routes } from "react-router";
 import MainLayout from "./layouts/MainLayout";
 import LandingPage from "./pages/LandingPage";
-import CherryPickPDF from "./pages/ExtractPage";
-
+import { APPROUTES } from "@/constant/routes";
+import HomePage from "./pages/HomePage";
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route path="" element={<LandingPage />} />
-          <Route path="extract" element={<CherryPickPDF />} />
+        <Route path={APPROUTES.Base} element={<MainLayout />}>
+          <Route path={APPROUTES.Landing} element={<LandingPage />} />
+          <Route path={APPROUTES.Home} element={<HomePage />} />
+          {/* <Route path={APPROUTES.extract} element={<CherryPickPDF />} /> */}
         </Route>
       </Routes>
     </>
