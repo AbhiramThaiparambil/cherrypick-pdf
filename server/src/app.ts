@@ -1,3 +1,5 @@
+import "reflect-metadata";
+import "./container";
 import express from "express";
 import pdfRoute from "./presentation/routes/pdf.routes";
 const app = express();

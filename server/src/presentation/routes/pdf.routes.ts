@@ -1,16 +1,16 @@
 import { Router, Request, Response } from "express";
 import multer from "multer";
+import { uploadPdfMiddleware } from "../middlewares/uploadPdf.middleware";
+import { PdfController } from "../controllers/Pdf.controller";
+import { container } from "tsyringe";
+const pdfController = container.resolve(PdfController);
+
 const pdfRoute = Router();
-const upload = multer({ dest: "uploads" });
+
 pdfRoute.post(
   "/upload-pdf",
-  upload.single("pdf"),
-  (req: Request, res: Response) => {
-    console.log(req.file);
-    console.log(req.body);
-
-    res.status(200).json("hellodfdf ");
-  },
+  uploadPdfMiddleware,
+  pdfController.uploadPdf.bind(pdfController),
 );
 
 export default pdfRoute;
