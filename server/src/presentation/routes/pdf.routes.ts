@@ -18,4 +18,6 @@ pdfRoute.get(
   pdfController.getPdfPages.bind(pdfController),
 );
 
+pdfRoute.post("/pdf/generate", pdfController.generatePdf.bind(pdfController));
+
 export default pdfRoute;
