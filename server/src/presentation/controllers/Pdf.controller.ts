@@ -3,6 +3,8 @@ import { IUploadPdfUsecase } from "../../application/use-case/IUploadPdf.usecase
 import { USECASE_TOKEN } from "../../constant/tocken";
 import { Request, Response } from "express";
 import { IGetPdfThumbnails } from "../../application/use-case/getPdfThumbnails/IGetPdfThumbnails.usecase";
+import { GeneratePdfRequestDTO } from "../../application/dtos/usecase/GeneratePdf.dto";
+import { IGeneratePdfUseCase } from "../../application/use-case/generateNewPdf/IGeneratePdfUseCase";
 @injectable()
 export class PdfController {
   constructor(
@@ -10,6 +12,8 @@ export class PdfController {
     private uploadPdfUsecase: IUploadPdfUsecase,
     @inject(USECASE_TOKEN.GET_PDF_THUMBNAILS_USECASE)
     private getPdfThumbnailsUsecase: IGetPdfThumbnails,
+    @inject(USECASE_TOKEN.GENERATE_PDF_USECASE)
+    private generatePdfUseCase: IGeneratePdfUseCase,
   ) {}
 
   async uploadPdf(req: Request, res: Response): Promise<void> {
@@ -43,7 +47,7 @@ export class PdfController {
       const _id = req.params.id + "";
       const page = Number(req.query.page) || 1;
       const limit = Number(req.query.limit) || 10;
-
+      console.log(req.query);
       const data = await this.getPdfThumbnailsUsecase.execute({
         _id,
         page,
@@ -54,6 +58,37 @@ export class PdfController {
     } catch (error) {
       res.status(500).json({
         message: "Failed to generate thumbnails",
+      });
+    }
+  }
+
+  async generatePdf(req: Request, res: Response): Promise<void> {
+    try {
+      const { pdfId, pages } = req.body;
+
+      console.log(pdfId, pages);
+      console.log(
+        "------------------------------------------------------------",
+      );
+
+      const requestDTO: GeneratePdfRequestDTO = {
+        pdfId,
+        pages,
+      };
+
+      const result = await this.generatePdfUseCase.execute(requestDTO);
+
+      res.setHeader("Content-Type", "application/pdf");
+
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${result.fileName}`,
+      );
+
+      res.send(result.fileBuffer);
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to generate PDF",
       });
     }
   }
