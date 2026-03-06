@@ -15,4 +15,17 @@ export class PdfRepository implements IPdfRepository {
       extractedPdfPath: pdf.extractedPdfPath,
     };
   }
+
+  async getPdfById(_id: string): Promise<IPdf> {
+    const pdf = await pdfModel.findById(_id);
+    if (!pdf) {
+      throw new Error("Pdf not found");
+    }
+    return {
+      _id: pdf._id.toString(),
+      user_Id: pdf.user_Id.toString(),
+      originalPdfPath: pdf.originalPdfPath,
+      extractedPdfPath: pdf.extractedPdfPath,
+    };
+  }
 }

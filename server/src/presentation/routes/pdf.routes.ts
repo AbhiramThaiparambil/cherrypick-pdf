@@ -13,4 +13,9 @@ pdfRoute.post(
   pdfController.uploadPdf.bind(pdfController),
 );
 
+pdfRoute.get(
+  "/pdf/:id/thumbnails",
+  pdfController.getPdfPages.bind(pdfController),
+);
+
 export default pdfRoute;
