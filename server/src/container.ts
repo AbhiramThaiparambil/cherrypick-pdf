@@ -14,6 +14,10 @@ import { IPdfThumbnailService } from "./services/pdfThumbnail/IPdfThumbnail.serv
 import { PdfThumbnailService } from "./services/pdfThumbnail/PdfThumbnail.service";
 import { GetPdfThumbnails } from "./application/use-case/getPdfThumbnails/GetPdfThumbnails.usecase";
 import { IGetPdfThumbnails } from "./application/use-case/getPdfThumbnails/IGetPdfThumbnails.usecase";
+import { IPdfExtractService } from "./services/PdfExtract/IPdfExtract.service";
+import { PdfExtractService } from "./services/PdfExtract/PdfExtract.service";
+import { IGeneratePdfUseCase } from "./application/use-case/generateNewPdf/IGeneratePdfUseCase";
+import { GeneratePdfUseCase } from "./application/use-case/generateNewPdf/GeneratePdfUseCase";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -21,6 +25,10 @@ container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
 
 container.register<IPdfThumbnailService>(SERVICE_TOKEN.PDF_THUMBNAIL_SERVICE, {
   useClass: PdfThumbnailService,
+});
+
+container.register<IPdfExtractService>(SERVICE_TOKEN.PDF_EXTRACT_SERVICE, {
+  useClass: PdfExtractService,
 });
 
 //usecase
@@ -35,6 +43,9 @@ container.register<IGetPdfThumbnails>(
   },
 );
 
+container.register<IGeneratePdfUseCase>(USECASE_TOKEN.GENERATE_PDF_USECASE, {
+  useClass: GeneratePdfUseCase,
+});
 // repository
 
 container.register<IPdfRepository>(REPOSITORY_TOKEN.PDF_REPOSITORY, {
