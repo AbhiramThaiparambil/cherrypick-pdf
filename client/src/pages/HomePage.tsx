@@ -6,8 +6,8 @@
 
 import { useEffect, useState } from "react";
 
-import Sidebar from "@/components/extract/Sidebar";
-import { FileUploader } from "@/components/extract/FileUploader";
+import Sidebar from "@/components/home/Sidebar";
+import { FileUploader } from "@/components/home/FileUploader";
 import { toast } from "sonner";
 import { createPdf } from "@/services/pdfservices";
 
