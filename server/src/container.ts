@@ -18,6 +18,8 @@ import { IPdfExtractService } from "./services/PdfExtract/IPdfExtract.service";
 import { PdfExtractService } from "./services/PdfExtract/PdfExtract.service";
 import { IGeneratePdfUseCase } from "./application/use-case/generateNewPdf/IGeneratePdfUseCase";
 import { GeneratePdfUseCase } from "./application/use-case/generateNewPdf/GeneratePdfUseCase";
+import { GetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/GetUserUploadedPdfs.usecase";
+import { IGetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -40,6 +42,13 @@ container.register<IGetPdfThumbnails>(
   USECASE_TOKEN.GET_PDF_THUMBNAILS_USECASE,
   {
     useClass: GetPdfThumbnails,
+  },
+);
+
+container.register<IGetUserUploadedPdfsUseCase>(
+  USECASE_TOKEN.GET_USERUPLOADED_PDF_USECASE,
+  {
+    useClass: GetUserUploadedPdfsUseCase,
   },
 );
 

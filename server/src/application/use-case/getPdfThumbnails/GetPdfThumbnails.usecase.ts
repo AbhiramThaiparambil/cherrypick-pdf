@@ -19,7 +19,7 @@ export class GetPdfThumbnails {
     data: GetPdfThumbnailsUseCaseRequestDTO,
   ): Promise<GetPdfThumbnailsUseCaseResponseDTO> {
     const { _id, page, limit } = data;
-    const { originalPdfPath } = await this.pdfRepo.getPdfById(_id);
+    const { originalPdfPath } = await this.pdfRepo.findByById(_id);
     const thumbnails = await this.pdfService.generateThumbnails({
       filePath: originalPdfPath.path,
       page,

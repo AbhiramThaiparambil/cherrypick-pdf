@@ -21,7 +21,7 @@ export class GeneratePdfUseCase implements IGeneratePdfUseCase {
     request: GeneratePdfRequestDTO,
   ): Promise<GeneratePdfResponseDTO> {
     const { pdfId, pages } = request;
-    const pdfData = await this.pdfRepository.getPdfById(pdfId);
+    const pdfData = await this.pdfRepository.findByById(pdfId);
 
     if (!pdfData) {
       throw new Error("PDF not found");

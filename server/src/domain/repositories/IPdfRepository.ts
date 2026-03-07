@@ -3,5 +3,6 @@ import { IPdf } from "../entities/IPdf";
 
 export interface IPdfRepository {
   createNewPdf(data: CreatePdfRepositoryDto): Promise<IPdf>;
-  getPdfById(_id: string): Promise<IPdf>;
+  findByById(_id: string): Promise<IPdf>;
+  findByUserId(userId: string): Promise<IPdf[]>;
 }
