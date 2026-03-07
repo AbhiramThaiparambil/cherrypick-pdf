@@ -1,0 +1,13 @@
+import { Router } from "express";
+import { container } from "tsyringe";
+import { AuthController } from "../controllers/auth.controller";
+
+const authRouter = Router();
+
+const authController = container.resolve(AuthController);
+
+authRouter.post("/signup", authController.signup.bind(authController));
+
+authRouter.post("/login", authController.login.bind(authController));
+
+export default authRouter;
