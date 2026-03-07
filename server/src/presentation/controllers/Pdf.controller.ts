@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { IUploadPdfUsecase } from "../../application/use-case/IUploadPdf.usecase";
 import { USECASE_TOKEN } from "../../constant/tocken";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { IGetPdfThumbnails } from "../../application/use-case/getPdfThumbnails/IGetPdfThumbnails.usecase";
 import { GeneratePdfRequestDTO } from "../../application/dtos/usecase/GeneratePdf.dto";
 
@@ -9,6 +9,7 @@ import { GetUserUploadedPdfsRequestDTO } from "../../application/dtos/usecase/Ge
 
 import { IGeneratePdfUseCase } from "../../application/use-case/generateNewPdf/IGeneratePdfUseCase";
 import { IGetUserUploadedPdfsUseCase } from "../../application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
+import { HTTP_STATUS } from "../../constant/httpStatus";
 
 @injectable()
 export class PdfController {
@@ -23,7 +24,11 @@ export class PdfController {
     private getUserPdfsUsecase: IGetUserUploadedPdfsUseCase,
   ) {}
 
-  async uploadPdf(req: Request, res: Response): Promise<void> {
+  async uploadPdf(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       console.log("---------");
       console.log(req.file);
@@ -43,13 +48,15 @@ export class PdfController {
     } catch (error) {
       console.error("Upload PDF error:", error);
 
-      res.status(500).json({
-        message: "Failed to upload PDF",
-      });
+      next(error);
     }
   }
 
-  async getPdfPages(req: Request, res: Response): Promise<void> {
+  async getPdfPages(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const _id = req.params.id + "";
       const page = Number(req.query.page) || 1;
@@ -63,13 +70,15 @@ export class PdfController {
       console.log(data);
       res.json(data);
     } catch (error) {
-      res.status(500).json({
-        message: "Failed to generate thumbnails",
-      });
+      next(error);
     }
   }
 
-  async generatePdf(req: Request, res: Response): Promise<void> {
+  async generatePdf(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const { pdfId, pages } = req.body;
 
@@ -94,13 +103,15 @@ export class PdfController {
 
       res.send(result.fileBuffer);
     } catch (error) {
-      res.status(500).json({
-        message: "Failed to generate PDF",
-      });
+      next(error);
     }
   }
 
-  async getUserUploadedPdfs(req: Request, res: Response): Promise<void> {
+  async getUserUploadedPdfs(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const userId = "69918dc54e619eb2a9a72645";
       const requestDTO: GetUserUploadedPdfsRequestDTO = {
@@ -108,7 +119,9 @@ export class PdfController {
       };
       const result = await this.getUserPdfsUsecase.execute(requestDTO);
 
-      res.status(200).json(result);
-    } catch (error) {}
+      res.status(HTTP_STATUS.OK).json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 }
