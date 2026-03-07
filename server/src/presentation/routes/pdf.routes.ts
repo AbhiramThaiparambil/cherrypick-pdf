@@ -20,4 +20,9 @@ pdfRoute.get(
 
 pdfRoute.post("/pdf/generate", pdfController.generatePdf.bind(pdfController));
 
+pdfRoute.get(
+  "/pdf/user-uploaded",
+  pdfController.getUserUploadedPdfs.bind(pdfController),
+);
+
 export default pdfRoute;
