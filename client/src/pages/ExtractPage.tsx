@@ -9,14 +9,7 @@ import { toast } from "sonner";
 import { downloadFile } from "@/lib/downloadFile";
 import { ThumbnailSkeleton } from "@/components/extract/Skeleton/ThumbnailSkeleton";
 import { SidebarSkeleton } from "@/components/extract/Skeleton/SelectedPagesSidebarSkeleton";
-
-export type IThumbnail = { thumbnail: string; page: number };
-
-export interface IGetPdfThumbnailsDTO {
-  thumbnails: { thumbnail: string; page: number }[];
-  fileName: string;
-  count: number;
-}
+import type { IThumbnail } from "@/types/IThumbnailPdf";
 
 const ExtractPage = () => {
   const [thumbnails, setThumbnails] = useState<IThumbnail[]>([]);

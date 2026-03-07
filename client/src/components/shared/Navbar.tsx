@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Sun, Moon, LayoutGrid } from "lucide-react";
 import useTheme from "@/hooks/useTheme";
+import { APPROUTES } from "@/constant/routes";
+import { Link } from "react-router";
 
 export default function Navbar() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
-  const navLinks = ["Features", "About"];
+  const navLinks = [{ title: "home", link: APPROUTES.Home }];
 
   return (
     <div className=" bg-background text-foreground transition-colors duration-300">
@@ -26,21 +28,23 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-1">
-          {navLinks.map((link) => (
-            <button
-              key={link}
-              onClick={() => setActiveLink(link)}
-              className={`
-                px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150
-                ${
-                  activeLink === link
-                    ? "bg-secondary text-secondary-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                }
-              `}
-            >
-              {link}
-            </button>
+          {navLinks.map((nav) => (
+            <Link to={nav.link}>
+              <button
+                key={nav.title}
+                onClick={() => setActiveLink(nav.title)}
+                className={`
+              px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150
+              ${
+                activeLink === nav.title
+                  ? "bg-secondary text-secondary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+              }
+                `}
+              >
+                {nav.title}
+              </button>
+            </Link>
           ))}
 
           <div className="w-px h-5 mx-2 bg-border" />

@@ -11,7 +11,7 @@ function App() {
         <Route path={APPROUTES.Base} element={<MainLayout />}>
           <Route path={APPROUTES.Landing} element={<LandingPage />} />
           <Route path={APPROUTES.Home} element={<HomePage />} />
-          <Route path={APPROUTES.extract} element={<ExtractPage />} />
+          <Route path={`${APPROUTES.extract}/:id`} element={<ExtractPage />} />
         </Route>
       </Routes>
     </>

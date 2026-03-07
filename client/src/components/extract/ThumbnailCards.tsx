@@ -33,7 +33,6 @@ export default function ThumbnailCard({
           : "border-border hover:border-muted-foreground/50",
       )}
     >
-      {/* Selection Checkbox */}
       <div className="absolute top-2 right-2 z-10">
         <Checkbox
           checked={selected}
