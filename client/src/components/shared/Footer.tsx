@@ -6,7 +6,6 @@ export default function Footer() {
   return (
     <footer className="border-t border-border bg-background py-10 px-6">
       <div className="max-w-5xl mx-auto flex flex-col items-center gap-6">
-        {/* Links */}
         <nav className="flex gap-8">
           {footerLinks.map((link) => (
             <a
@@ -19,7 +18,6 @@ export default function Footer() {
           ))}
         </nav>
 
-        {/* Socials */}
         <div className="flex gap-4">
           {[Twitter, Linkedin].map((Icon, i) => (
             <a
