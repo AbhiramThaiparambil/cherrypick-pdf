@@ -8,8 +8,11 @@ export const USECASE_TOKEN = {
   GET_PDF_THUMBNAILS_USECASE: "IGetPdfThumbnails",
   GENERATE_PDF_USECASE: "IGeneratePdfUseCase",
   GET_USERUPLOADED_PDF_USECASE: "IGetUserUploadedPdfsUseCase",
+  LOGIN_USECASE: "ILoginUseCase",
+  SIGNUP_USECASE: "ISignupUseCase",
 };
 
 export const REPOSITORY_TOKEN = {
   PDF_REPOSITORY: "IPdfRepository",
+  USER_REPOSITORY: "IUserRepository",
 };

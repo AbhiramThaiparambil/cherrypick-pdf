@@ -20,6 +20,12 @@ import { IGeneratePdfUseCase } from "./application/use-case/generateNewPdf/IGene
 import { GeneratePdfUseCase } from "./application/use-case/generateNewPdf/GeneratePdfUseCase";
 import { GetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/GetUserUploadedPdfs.usecase";
 import { IGetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
+import { SignupUseCase } from "./application/use-case/signup/Signup.usecase";
+import { ISignupUseCase } from "./application/use-case/signup/ISignup.usecase";
+import { LoginUseCase } from "./application/use-case/login/Login.usecase";
+import { ILoginUseCase } from "./application/use-case/login/ILogin.usecase";
+import { IUserRepository } from "./domain/repositories/IUserRepository";
+import { UserRepository } from "./infrastructure/repositories/User.repository";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -34,6 +40,14 @@ container.register<IPdfExtractService>(SERVICE_TOKEN.PDF_EXTRACT_SERVICE, {
 });
 
 //usecase
+
+container.register<ISignupUseCase>(USECASE_TOKEN.SIGNUP_USECASE, {
+  useClass: SignupUseCase,
+});
+
+container.register<ILoginUseCase>(USECASE_TOKEN.LOGIN_USECASE, {
+  useClass: LoginUseCase,
+});
 
 container.register<IUploadPdfUsecase>(USECASE_TOKEN.UPLOAD_PDF_USECASE, {
   useClass: UploadPdfUseCase,
@@ -59,4 +73,8 @@ container.register<IGeneratePdfUseCase>(USECASE_TOKEN.GENERATE_PDF_USECASE, {
 
 container.register<IPdfRepository>(REPOSITORY_TOKEN.PDF_REPOSITORY, {
   useClass: PdfRepository,
+});
+
+container.register<IUserRepository>(REPOSITORY_TOKEN.USER_REPOSITORY, {
+  useClass: UserRepository,
 });
