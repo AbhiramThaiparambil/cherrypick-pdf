@@ -4,7 +4,12 @@ import { USECASE_TOKEN } from "../../constant/tocken";
 import { Request, Response } from "express";
 import { IGetPdfThumbnails } from "../../application/use-case/getPdfThumbnails/IGetPdfThumbnails.usecase";
 import { GeneratePdfRequestDTO } from "../../application/dtos/usecase/GeneratePdf.dto";
+
+import { GetUserUploadedPdfsRequestDTO } from "../../application/dtos/usecase/GetUserUploadedPdfs.dto";
+
 import { IGeneratePdfUseCase } from "../../application/use-case/generateNewPdf/IGeneratePdfUseCase";
+import { IGetUserUploadedPdfsUseCase } from "../../application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
+
 @injectable()
 export class PdfController {
   constructor(
@@ -14,6 +19,8 @@ export class PdfController {
     private getPdfThumbnailsUsecase: IGetPdfThumbnails,
     @inject(USECASE_TOKEN.GENERATE_PDF_USECASE)
     private generatePdfUseCase: IGeneratePdfUseCase,
+    @inject(USECASE_TOKEN.GET_USERUPLOADED_PDF_USECASE)
+    private getUserPdfsUsecase: IGetUserUploadedPdfsUseCase,
   ) {}
 
   async uploadPdf(req: Request, res: Response): Promise<void> {
@@ -91,5 +98,17 @@ export class PdfController {
         message: "Failed to generate PDF",
       });
     }
+  }
+
+  async getUserUploadedPdfs(req: Request, res: Response): Promise<void> {
+    try {
+      const userId = "69918dc54e619eb2a9a72645";
+      const requestDTO: GetUserUploadedPdfsRequestDTO = {
+        userId: userId,
+      };
+      const result = await this.getUserPdfsUsecase.execute(requestDTO);
+
+      res.status(200).json(result);
+    } catch (error) {}
   }
 }
