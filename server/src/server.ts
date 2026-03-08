@@ -6,7 +6,8 @@ config();
 
 configMongoDb();
 
-const port = process.env.PORT || 4040;
-app.listen(port, () => {
-  console.log("server is running on" + port);
+const port = Number(process.env.PORT) || 4040;
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server is running on port ${port}`);
 });
