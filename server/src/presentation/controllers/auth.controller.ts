@@ -12,6 +12,7 @@ import {
   IRefreshTokenUseCase,
   IRequestTokenDTO,
 } from "../../application/use-case/Token/IRefreshToken.usecase";
+import { IGetUserUseCase } from "../../application/use-case/getUser/IGetUser.usecase";
 
 @injectable()
 export class AuthController {
@@ -20,6 +21,8 @@ export class AuthController {
     @inject(USECASE_TOKEN.LOGIN_USECASE) private loginUseCase: ILoginUseCase,
     @inject(USECASE_TOKEN.REFRESH_TOKEN_USECASE)
     private refreshTokenUseCase: IRefreshTokenUseCase,
+    @inject(USECASE_TOKEN.GET_USER_USECASE)
+    private getUserUseCase: IGetUserUseCase,
   ) {}
 
   async signup(req: Request, res: Response, next: NextFunction) {
@@ -101,6 +104,22 @@ export class AuthController {
       };
       const data = await this.refreshTokenUseCase.execute(requestData);
       res.status(HTTP_STATUS.OK).json({ accessToken: data.accessToken });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = res.locals.userId;
+
+      if (!userId) {
+        throw new AppError("Unauthorized", HTTP_STATUS.UNAUTHORIZED);
+      }
+
+      const user = await this.getUserUseCase.execute(userId);
+
+      res.status(HTTP_STATUS.OK).json(user);
     } catch (error) {
       next(error);
     }

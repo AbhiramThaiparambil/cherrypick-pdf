@@ -12,6 +12,7 @@ export const USECASE_TOKEN = {
   LOGIN_USECASE: "ILoginUseCase",
   SIGNUP_USECASE: "ISignupUseCase",
   REFRESH_TOKEN_USECASE: "IRefreshTokenUseCase",
+  GET_USER_USECASE: "IGetUserUseCase",
 };
 
 export const REPOSITORY_TOKEN = {

@@ -33,6 +33,20 @@ export class UserRepository implements IUserRepository {
     };
   }
 
+  async findById(id: string): Promise<IUser | null> {
+    const user = await UserModel.findById(id).lean().exec();
+
+    if (!user) return null;
+
+    return {
+      _id: user._id.toString(),
+      email: user.email,
+      password: user.password,
+      createdAt: user.createdAt,
+    };
+  }
+
+
   comparePassword(
     userInputPassword: string,
     storedPassword: string,
