@@ -4,14 +4,39 @@ import LandingPage from "@/pages/LandingPage";
 import { APPROUTES } from "@/constant/routes";
 import HomePage from "@/pages/HomePage";
 import ExtractPage from "@/pages/ExtractPage";
+import ProtectedRoute from "./layouts/ProtectedRoute";
+import AuthRoute from "./layouts/AuthRoute";
+import useRefreshSession from "./hooks/useRefreshSession";
 function App() {
+  useRefreshSession();
   return (
     <>
       <Routes>
         <Route path={APPROUTES.Base} element={<MainLayout />}>
-          <Route path={APPROUTES.Landing} element={<LandingPage />} />
-          <Route path={APPROUTES.Home} element={<HomePage />} />
-          <Route path={`${APPROUTES.extract}/:id`} element={<ExtractPage />} />
+          <Route
+            path={APPROUTES.Landing}
+            element={
+              <AuthRoute>
+                <LandingPage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path={APPROUTES.Home}
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${APPROUTES.extract}/:id`}
+            element={
+              <ProtectedRoute>
+                <ExtractPage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </>

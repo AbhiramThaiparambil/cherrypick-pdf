@@ -1,9 +1,9 @@
-import axios from "axios";
+import api from "@/lib/api";
 
 export const createPdf = async (uploadPdf: File) => {
   const formData = new FormData();
   formData.append("pdf", uploadPdf);
-  const res = axios.post("http://localhost:4040/upload-pdf", formData, {
+  const res = api.post("/upload-pdf", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return res;
@@ -14,14 +14,12 @@ export const getPdfthumbnails = async (
   limit: number,
   page: number,
 ) => {
-  return await axios.get(
-    `http://localhost:4040/pdf/${id}/thumbnails?limit=${limit}&page=${page}`,
-  );
+  return await api.get(`/pdf/${id}/thumbnails?limit=${limit}&page=${page}`);
 };
 
 export const generateExtractPdf = async (pdfId: string, pages: number[]) => {
-  return await axios.post(
-    "http://localhost:4040/pdf/generate",
+  return await api.post(
+    "/pdf/generate",
     {
       pdfId,
       pages,
@@ -36,5 +34,5 @@ export const getUserPdfs = async () =>
   // limit: number,
   // page: number,
   {
-    return await axios.get(`http://localhost:4040/pdf/user-uploaded`);
+    return await api.get(`/pdf/user-uploaded`);
   };
