@@ -11,6 +11,7 @@ export const USECASE_TOKEN = {
   GET_USERUPLOADED_PDF_USECASE: "IGetUserUploadedPdfsUseCase",
   LOGIN_USECASE: "ILoginUseCase",
   SIGNUP_USECASE: "ISignupUseCase",
+  REFRESH_TOKEN_USECASE: "IRefreshTokenUseCase",
 };
 
 export const REPOSITORY_TOKEN = {

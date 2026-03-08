@@ -34,7 +34,7 @@ export class LoginUseCase implements ILoginUseCase {
     }
 
     const accessToken = this.tokenService.generateAccessToken(user._id);
-    const refreshToken = this.tokenService.generateAccessToken(user._id);
+    const refreshToken = this.tokenService.generateRefreshToken(user._id);
 
     return {
       _id: user._id + "",

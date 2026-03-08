@@ -7,6 +7,7 @@ const authRouter = Router();
 const authController = container.resolve(AuthController);
 
 authRouter.post("/signup", authController.signup.bind(authController));
+authRouter.post("/refresh", authController.refreshToken.bind(authController));
 
 authRouter.post("/login", authController.login.bind(authController));
 

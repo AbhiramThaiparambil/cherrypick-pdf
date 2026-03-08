@@ -8,12 +8,18 @@ import { LoginRequestDTO } from "../../application/dtos/usecase/Login.dto";
 import { AppError } from "../../application/AppError";
 import { HTTP_STATUS } from "../../constant/httpStatus";
 import { sendRefreshToken } from "../../utils/sendToken";
+import {
+  IRefreshTokenUseCase,
+  IRequestTokenDTO,
+} from "../../application/use-case/Token/IRefreshToken.usecase";
 
 @injectable()
 export class AuthController {
   constructor(
     @inject(USECASE_TOKEN.SIGNUP_USECASE) private signupUseCase: ISignupUseCase,
     @inject(USECASE_TOKEN.LOGIN_USECASE) private loginUseCase: ILoginUseCase,
+    @inject(USECASE_TOKEN.REFRESH_TOKEN_USECASE)
+    private refreshTokenUseCase: IRefreshTokenUseCase,
   ) {}
 
   async signup(req: Request, res: Response, next: NextFunction) {
@@ -76,6 +82,25 @@ export class AuthController {
         email: result.email,
         accessToken: result.accessToken,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async refreshToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const refreshToken = req.cookies?.refreshToken;
+      console.log(refreshToken);
+      console.log(req.cookies);
+      if (!refreshToken) {
+        throw new AppError("Refresh token missing", HTTP_STATUS.UNAUTHORIZED);
+      }
+
+      const requestData: IRequestTokenDTO = {
+        refreshToken,
+      };
+      const data = await this.refreshTokenUseCase.execute(requestData);
+      res.status(HTTP_STATUS.OK).json({ accessToken: data.accessToken });
     } catch (error) {
       next(error);
     }

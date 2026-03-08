@@ -35,7 +35,7 @@ export class SignupUseCase implements ISignupUseCase {
     const user = await this.userRepository.create(userData);
 
     const accessToken = this.tokenService.generateAccessToken(user._id);
-    const refreshToken = this.tokenService.generateAccessToken(user._id);
+    const refreshToken = this.tokenService.generateRefreshToken(user._id);
 
     return {
       id: user._id!,

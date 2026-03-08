@@ -41,7 +41,7 @@ export class PdfController {
 
       const result = await this.uploadPdfUsecase.execute({
         file: req.file,
-        userId: "69918dc54e619eb2a9a72645",
+        userId: res.locals.userId,
       });
       console.log(result);
       res.status(200).json(result);
@@ -113,7 +113,7 @@ export class PdfController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const userId = "69918dc54e619eb2a9a72645";
+      const userId = res.locals.userId;
       const requestDTO: GetUserUploadedPdfsRequestDTO = {
         userId: userId,
       };

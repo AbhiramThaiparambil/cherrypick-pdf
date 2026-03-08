@@ -5,6 +5,8 @@ import { ITokenService } from "./IToken.service";
 @injectable()
 export class TokenService implements ITokenService {
   generateAccessToken(userId: string): string {
+    console.log("ACCESS:", process.env.ACCESS_TOKEN_SECRET);
+
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
     if (!accessTokenSecret) {
@@ -15,6 +17,8 @@ export class TokenService implements ITokenService {
   }
 
   generateRefreshToken(userId: string): string {
+    console.log("REFRESH:", process.env.REFRESH_TOKEN_SECRET);
+
     const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 
     if (!refreshTokenSecret) {
@@ -25,6 +29,8 @@ export class TokenService implements ITokenService {
   }
 
   verifyAccessToken(token: string): { userId: string } {
+    console.log("ACCESS:", process.env.ACCESS_TOKEN_SECRET);
+
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
     if (!accessTokenSecret) {
@@ -35,6 +41,7 @@ export class TokenService implements ITokenService {
   }
 
   verifyRefreshToken(token: string): { userId: string } {
+    console.log("REFRESH:", process.env.REFRESH_TOKEN_SECRET);
     const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 
     if (!refreshTokenSecret) {

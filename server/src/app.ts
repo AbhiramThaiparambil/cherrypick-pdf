@@ -3,6 +3,8 @@ import "./container";
 import express from "express";
 import pdfRoute from "./presentation/routes/pdf.routes";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
+
 const app = express();
 
 import cors from "cors";
@@ -16,6 +18,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use(cookieParser());
 app.use("/", pdfRoute);
 app.use("/auth", authRouter);
 app.use(errorHandler);

@@ -28,6 +28,8 @@ import { IUserRepository } from "./domain/repositories/IUserRepository";
 import { UserRepository } from "./infrastructure/repositories/User.repository";
 import { ITokenService } from "./services/Token/IToken.service";
 import { TokenService } from "./services/Token/Token.service";
+import { RefreshTokenUseCase } from "./application/use-case/Token/RefreshToken.usecase";
+import { IRefreshTokenUseCase } from "./application/use-case/Token/IRefreshToken.usecase";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -75,6 +77,11 @@ container.register<IGetUserUploadedPdfsUseCase>(
 container.register<IGeneratePdfUseCase>(USECASE_TOKEN.GENERATE_PDF_USECASE, {
   useClass: GeneratePdfUseCase,
 });
+
+container.register<IRefreshTokenUseCase>(USECASE_TOKEN.REFRESH_TOKEN_USECASE, {
+  useClass: RefreshTokenUseCase,
+});
+
 // repository
 
 container.register<IPdfRepository>(REPOSITORY_TOKEN.PDF_REPOSITORY, {
