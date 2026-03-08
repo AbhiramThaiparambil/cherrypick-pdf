@@ -1,10 +1,10 @@
-import type { IThumbnail } from "@/pages/ExtractPage";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Download } from "lucide-react";
 import { SelectedPageCard } from "./SelectedPageCard";
 import { Spinner } from "../ui/spinner";
+import type { IThumbnail } from "@/types/IThumbnailPdf";
 
 interface Props {
   selectedPages: IThumbnail[];
