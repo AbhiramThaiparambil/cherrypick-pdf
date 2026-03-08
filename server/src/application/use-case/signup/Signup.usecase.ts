@@ -7,13 +7,15 @@ import {
 } from "../../dtos/usecase/Signup.dto";
 import { AppError } from "../../AppError";
 import { HTTP_STATUS } from "../../../constant/httpStatus";
-import { REPOSITORY_TOKEN } from "../../../constant/tocken";
+import { REPOSITORY_TOKEN, SERVICE_TOKEN } from "../../../constant/tocken";
+import { ITokenService } from "../../../services/Token/IToken.service";
 
 @injectable()
 export class SignupUseCase implements ISignupUseCase {
   constructor(
     @inject(REPOSITORY_TOKEN.USER_REPOSITORY)
     private userRepository: IUserRepository,
+    @inject(SERVICE_TOKEN.TOKEN_SERVICE) private tokenService: ITokenService,
   ) {}
 
   async execute(data: SignupRequestDTO): Promise<SignupResponseDTO> {
@@ -32,10 +34,14 @@ export class SignupUseCase implements ISignupUseCase {
 
     const user = await this.userRepository.create(userData);
 
+    const accessToken = this.tokenService.generateAccessToken(user._id);
+    const refreshToken = this.tokenService.generateAccessToken(user._id);
+
     return {
       id: user._id!,
       email: user.email,
-      createdAt: user.createdAt,
+      accessToken,
+      refreshToken,
     };
   }
 }

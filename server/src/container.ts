@@ -26,6 +26,8 @@ import { LoginUseCase } from "./application/use-case/login/Login.usecase";
 import { ILoginUseCase } from "./application/use-case/login/ILogin.usecase";
 import { IUserRepository } from "./domain/repositories/IUserRepository";
 import { UserRepository } from "./infrastructure/repositories/User.repository";
+import { ITokenService } from "./services/Token/IToken.service";
+import { TokenService } from "./services/Token/Token.service";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -37,6 +39,10 @@ container.register<IPdfThumbnailService>(SERVICE_TOKEN.PDF_THUMBNAIL_SERVICE, {
 
 container.register<IPdfExtractService>(SERVICE_TOKEN.PDF_EXTRACT_SERVICE, {
   useClass: PdfExtractService,
+});
+
+container.register<ITokenService>(SERVICE_TOKEN.TOKEN_SERVICE, {
+  useClass: TokenService,
 });
 
 //usecase

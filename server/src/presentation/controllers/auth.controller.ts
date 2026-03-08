@@ -7,6 +7,7 @@ import { SignupRequestDTO } from "../../application/dtos/usecase/Signup.dto";
 import { LoginRequestDTO } from "../../application/dtos/usecase/Login.dto";
 import { AppError } from "../../application/AppError";
 import { HTTP_STATUS } from "../../constant/httpStatus";
+import { sendRefreshToken } from "../../utils/sendToken";
 
 @injectable()
 export class AuthController {
@@ -33,7 +34,14 @@ export class AuthController {
 
       const result = await this.signupUseCase.execute(signupDTO);
 
-      res.status(201).json(result);
+      // sendAccessToken(res, result.accessToken);
+      sendRefreshToken(res, result.refreshToken);
+
+      res.status(HTTP_STATUS.CREATED).json({
+        _id: result.id,
+        email: result.email,
+        accessToken: result.accessToken,
+      });
     } catch (error) {
       next(error);
     }
@@ -60,8 +68,14 @@ export class AuthController {
       };
 
       const result = await this.loginUseCase.execute(loginDTO);
+      // sendAccessToken(res, result.accessToken);
+      sendRefreshToken(res, result.refreshToken);
 
-      res.status(200).json(result);
+      res.status(HTTP_STATUS.OK).json({
+        _id: result._id,
+        email: result.email,
+        accessToken: result.accessToken,
+      });
     } catch (error) {
       next(error);
     }

@@ -6,5 +6,6 @@ export interface SignupRequestDTO {
 export interface SignupResponseDTO {
   id: string;
   email: string;
-  createdAt: Date;
+  accessToken: string;
+  refreshToken: string;
 }

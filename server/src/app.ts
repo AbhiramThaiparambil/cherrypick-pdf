@@ -9,7 +9,12 @@ import cors from "cors";
 import authRouter from "./presentation/routes/auth.routes";
 import { errorHandler } from "./presentation/middlewares/errorHandler.middleware";
 app.use(morgan("dev"));
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use("/", pdfRoute);
 app.use("/auth", authRouter);
