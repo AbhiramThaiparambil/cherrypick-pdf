@@ -4,8 +4,8 @@ import { HTTP_STATUS } from "../constant/httpStatus";
 export const sendRefreshToken = (res: Response, refreshToken: string) => {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };

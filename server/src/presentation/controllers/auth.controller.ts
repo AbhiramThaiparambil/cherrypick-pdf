@@ -112,8 +112,8 @@ export class AuthController {
     try {
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
       });
       res.status(HTTP_STATUS.OK).json({ message: "Logged out successfully" });
     } catch (error) {
