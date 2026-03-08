@@ -10,6 +10,13 @@ import { useAuthStore } from "@/store/authStore";
 import { APPROUTES } from "@/constant/routes";
 import { useNavigate } from "react-router";
 
+export const validatePassword = (password: string): boolean => /^(?=.*[!@#$%&*])[a-zA-Z0-9!@#$%&*]{6,}$/.test(password);
+
+export const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export default function LandingPage() {
   const [isAuth, setIsAuth] = useState<AuthMode | false>(false);
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
@@ -23,13 +30,20 @@ export default function LandingPage() {
       return;
     }
 
-    if (!email.includes("@")) {
-      toast.error("Invalid email format");
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address.");
       return;
     }
 
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+    if (isAuth === "signup" && !validatePassword(password)) {
+      toast.error(
+        "Password must be at least 6 characters and contain at least one special character (!@#$%&*)."
+      );
+      return;
+    }
+
+    if (isAuth === "login" && password.length < 6) {
+      toast.error("Password must be at least 6 characters.");
       return;
     }
 

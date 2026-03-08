@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { IAuthForm } from "@/types/IAuth";
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface AuthFormProps {
   mode: "login" | "signup";
@@ -20,6 +21,7 @@ interface AuthFormProps {
 
 export function AuthForm({ mode, changeMode, authHandle }: AuthFormProps) {
   const isLogin = mode === "login";
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState<IAuthForm>({
     email: "",
@@ -86,13 +88,26 @@ export function AuthForm({ mode, changeMode, authHandle }: AuthFormProps) {
           <Label htmlFor="password" className="text-foreground">
             Password
           </Label>
+          <div className="relative">
           <Input
             onChange={handleChange}
             name="password"
             id="password"
-            type="password"
-            className="border-input bg-background text-foreground"
+              type={showPassword ? "text" : "password"}
+              className="border-input bg-background text-foreground pr-10"
           />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">

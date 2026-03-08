@@ -18,3 +18,13 @@ export const refreshSession = async () => {
   const res = await api.post("/auth/refresh");
   return res.data;
 };
+
+export const getUser = async () => {
+  const res = await api.get("/auth/user");
+  return res.data;
+};
+
+export const logoutUser = async () => {
+  const res = await api.post("/auth/logout");
+  return res.data;
+};

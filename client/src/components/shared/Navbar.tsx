@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
 import useTheme from "@/hooks/useTheme";
 import { APPROUTES } from "@/constant/routes";
@@ -6,12 +6,41 @@ import { Link } from "react-router";
 import AppIcon from "./AppIcon";
 import { useAuthStore } from "@/store/authStore";
 import { UserMenu } from "./UserMenu";
+import { getUser, logoutUser } from "@/services/authService";
+import { useNavigate } from "react-router";
 
 export default function Navbar() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
   const navLinks = [{ title: "home", link: APPROUTES.Home }];
-  const email = useAuthStore((state) => state.email);
+  const { email, setEmail, clearAuth } = useAuthStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        if (!email) {
+          const userData = await getUser();
+          if (userData && userData.email) {
+            setEmail(userData.email);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch user", error);
+      }
+    };
+    fetchUser();
+  }, [email, setEmail]);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      clearAuth();
+      navigate(APPROUTES.Landing);
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   return (
     <div className=" bg-background text-foreground transition-colors duration-300">
@@ -59,9 +88,9 @@ export default function Navbar() {
           >
             {theme == "dark" ? <Moon /> : <Sun />}
           </button>
-
-          <UserMenu email={email} onLogout={() => console.log()} />
-        </div>
+       
+{email &&          <UserMenu email={email} onLogout={handleLogout} />
+}        </div>
       </nav>
     </div>
   );
