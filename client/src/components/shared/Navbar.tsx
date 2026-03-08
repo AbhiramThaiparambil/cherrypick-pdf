@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { Sun, Moon, LayoutGrid } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import useTheme from "@/hooks/useTheme";
 import { APPROUTES } from "@/constant/routes";
 import { Link } from "react-router";
+import AppIcon from "./AppIcon";
+import { useAuthStore } from "@/store/authStore";
+import { UserMenu } from "./UserMenu";
 
 export default function Navbar() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
   const navLinks = [{ title: "home", link: APPROUTES.Home }];
+  const email = useAuthStore((state) => state.email);
 
   return (
     <div className=" bg-background text-foreground transition-colors duration-300">
@@ -17,13 +21,12 @@ export default function Navbar() {
       >
         <div className="flex items-center gap-2.5 select-none">
           <div className="relative">
-            <div className="p-1.5 rounded-md bg-primary/10 text-primary">
-              {/* <LogoIcon /> */}
-              <LayoutGrid />
+            <div className="">
+              <AppIcon />
             </div>
           </div>
           <span className="font-semibold text-[15px] tracking-tight">
-            CherryPick PDF
+            PDF Extractor
           </span>
         </div>
 
@@ -57,9 +60,7 @@ export default function Navbar() {
             {theme == "dark" ? <Moon /> : <Sun />}
           </button>
 
-          <button className="ml-2 px-5 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 active:scale-95 bg-primary text-primary-foreground hover:opacity-90">
-            Sign In
-          </button>
+          <UserMenu email={email} onLogout={() => console.log()} />
         </div>
       </nav>
     </div>
