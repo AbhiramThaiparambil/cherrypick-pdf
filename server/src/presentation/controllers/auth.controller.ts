@@ -108,6 +108,19 @@ export class AuthController {
       next(error);
     }
   }
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+      });
+      res.status(HTTP_STATUS.OK).json({ message: "Logged out successfully" });
+    } catch (error) {
+      next(error);
+    }
+  }
+
 
   async getUser(req: Request, res: Response, next: NextFunction) {
     try {

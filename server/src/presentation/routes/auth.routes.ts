@@ -11,6 +11,7 @@ authRouter.post("/signup", authController.signup.bind(authController));
 authRouter.post("/refresh", authController.refreshToken.bind(authController));
 
 authRouter.post("/login", authController.login.bind(authController));
+authRouter.post("/logout", authController.logout.bind(authController));
 
 authRouter.get("/user", authMiddleware, authController.getUser.bind(authController));
 
