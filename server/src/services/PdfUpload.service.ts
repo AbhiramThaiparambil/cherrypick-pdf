@@ -13,17 +13,24 @@ export class UploadPdfService implements IPdfUploadService {
   ): Promise<uploadPdfFileServiceResponseDto> {
     try {
       const { file } = data;
-      const uploadDir = path.join(process.cwd(), "uploads");
+      const uploadDir = path.resolve("uploads");
 
       if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir);
+        fs.mkdirSync(uploadDir, { recursive: true });
       }
 
-      const fileName = Date.now() + "-" + file.originalname;
+      const fileName =
+        Date.now() +
+        "-" +
+        Math.random().toString(36).substring(2) +
+        "-" +
+        file.originalname;
 
       const filePath = path.join(uploadDir, fileName);
 
       await fs.promises.writeFile(filePath, file.buffer);
+
+      console.log("PDF saved at:", filePath);
 
       return {
         message: "PDF saved successfully",
