@@ -1,8 +1,6 @@
-import { config } from "dotenv";
 import app from "./app";
 import { configMongoDb } from "./infrastructure/config/mongodb.config";
 
-config();
 
 configMongoDb();
 
