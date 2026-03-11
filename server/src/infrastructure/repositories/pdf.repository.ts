@@ -42,4 +42,9 @@ export class PdfRepository implements IPdfRepository {
       };
     });
   }
+
+  async deleteById(_id: string): Promise<boolean> {
+    const result = await pdfModel.findByIdAndDelete(_id).exec();
+    return result !== null;
+  }
 }

@@ -25,4 +25,9 @@ pdfRoute.get(
   pdfController.getUserUploadedPdfs.bind(pdfController),
 );
 
+pdfRoute.delete(
+  "/pdf/:id",
+  pdfController.deletePdf.bind(pdfController),
+);
+
 export default pdfRoute;

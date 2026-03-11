@@ -8,6 +8,7 @@ export const USECASE_TOKEN = {
   GET_PDF_THUMBNAILS_USECASE: "IGetPdfThumbnails",
   GENERATE_PDF_USECASE: "IGeneratePdfUseCase",
   GET_USERUPLOADED_PDF_USECASE: "IGetUserUploadedPdfsUseCase",
+  DELETE_PDF_USECASE: "IDeletePdfUseCase",
 };
 
 export const REPOSITORY_TOKEN = {

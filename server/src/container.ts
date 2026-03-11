@@ -20,6 +20,8 @@ import { IGeneratePdfUseCase } from "./application/use-case/generateNewPdf/IGene
 import { GeneratePdfUseCase } from "./application/use-case/generateNewPdf/GeneratePdfUseCase";
 import { GetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/GetUserUploadedPdfs.usecase";
 import { IGetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
+import { IDeletePdfUseCase } from "./application/use-case/deletePdf/IDeletePdfUseCase";
+import { DeletePdfUseCase } from "./application/use-case/deletePdf/DeletePdf.usecase";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -55,6 +57,11 @@ container.register<IGetUserUploadedPdfsUseCase>(
 container.register<IGeneratePdfUseCase>(USECASE_TOKEN.GENERATE_PDF_USECASE, {
   useClass: GeneratePdfUseCase,
 });
+
+container.register<IDeletePdfUseCase>(USECASE_TOKEN.DELETE_PDF_USECASE, {
+  useClass: DeletePdfUseCase,
+});
+
 // repository
 
 container.register<IPdfRepository>(REPOSITORY_TOKEN.PDF_REPOSITORY, {
