@@ -38,3 +38,12 @@ export const getUserPdfs = async () =>
   {
     return await axios.get(`http://localhost:4040/pdf/user-uploaded`);
   };
+
+
+
+
+  export const deletePdfById = async (id:string) =>
+  
+  {
+    return await axios.delete(`http://localhost:4040/pdf/${id}`);
+  };
