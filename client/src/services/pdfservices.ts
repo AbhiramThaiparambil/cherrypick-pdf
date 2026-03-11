@@ -36,3 +36,10 @@ export const getUserPdfs = async () =>
   {
     return await api.get(`/pdf/user-uploaded`);
   };
+
+
+
+
+export const deletePdfById = async (id: string) => {
+  return await api.delete(`/pdf/${id}`);
+};

@@ -1,15 +1,11 @@
-// const ExtractPage = () => {
-//   return <div>ExtractPage</div>;
-// };
 
-// export default ExtractPage;
 
 import { useEffect, useState } from "react";
 
 import Sidebar from "@/components/home/Sidebar";
 import { FileUploader } from "@/components/home/FileUploader";
 import { toast } from "sonner";
-import { createPdf, getUserPdfs } from "@/services/pdfservices";
+import { createPdf, deletePdfById, getUserPdfs } from "@/services/pdfservices";
 import { APPROUTES } from "@/constant/routes";
 import { useNavigate } from "react-router";
 import type { IUserUploadedPdf } from "@/types/IUserUploadedPdf";
@@ -18,6 +14,7 @@ export default function HomePage() {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadPdf, setUploadPdf] = useState<File[]>();
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [userUploadedPdfs, setUserUploadedPdfs] = useState<IUserUploadedPdf[]>(
     [],
   );
@@ -63,15 +60,42 @@ export default function HomePage() {
       if (res.status == 200) {
         setUserUploadedPdfs(res.data || []);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
+
+
+
+  const deletePdf = async (id: string) => {
+    try {
+      setIsDeleting(true);
+      const promise = deletePdfById(id)
+      toast.promise(promise, {
+        loading: "Deleting PDF...",
+        success: "PDF deleted successfully",
+        error: "Failed to delete PDF",
+      });
+
+      const res = await promise
+      if (res.status == 200) {
+        setUserUploadedPdfs((prv) => prv?.filter((f) => f._id !== id))
+
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+
+
 
   return (
     <div
       className={`min-h-screen font-sans transition-colors duration-300 bg-background`}
     >
       <div className="flex h-[calc(100vh-56px)]">
-        <Sidebar userUploadedPdfs={userUploadedPdfs} />
+        <Sidebar userUploadedPdfs={userUploadedPdfs} deletePdf={deletePdf} isDeleting={isDeleting} />
         <main className="flex-1 overflow-y-auto px-8 py-7 flex flex-col gap-7">
           {uploadPdf && uploadPdf?.length > 0 && (
             <div className="flex ">
