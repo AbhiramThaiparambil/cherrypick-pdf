@@ -9,10 +9,7 @@ export const USECASE_TOKEN = {
   GET_PDF_THUMBNAILS_USECASE: "IGetPdfThumbnails",
   GENERATE_PDF_USECASE: "IGeneratePdfUseCase",
   GET_USERUPLOADED_PDF_USECASE: "IGetUserUploadedPdfsUseCase",
-  LOGIN_USECASE: "ILoginUseCase",
-  SIGNUP_USECASE: "ISignupUseCase",
-  REFRESH_TOKEN_USECASE: "IRefreshTokenUseCase",
-  GET_USER_USECASE: "IGetUserUseCase",
+  DELETE_PDF_USECASE: "IDeletePdfUseCase",
 };
 
 export const REPOSITORY_TOKEN = {

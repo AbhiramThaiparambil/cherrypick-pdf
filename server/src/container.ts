@@ -20,18 +20,6 @@ import { IGeneratePdfUseCase } from "./application/use-case/generateNewPdf/IGene
 import { GeneratePdfUseCase } from "./application/use-case/generateNewPdf/GeneratePdfUseCase";
 import { GetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/GetUserUploadedPdfs.usecase";
 import { IGetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
-import { SignupUseCase } from "./application/use-case/signup/Signup.usecase";
-import { ISignupUseCase } from "./application/use-case/signup/ISignup.usecase";
-import { LoginUseCase } from "./application/use-case/login/Login.usecase";
-import { ILoginUseCase } from "./application/use-case/login/ILogin.usecase";
-import { IUserRepository } from "./domain/repositories/IUserRepository";
-import { UserRepository } from "./infrastructure/repositories/User.repository";
-import { ITokenService } from "./services/Token/IToken.service";
-import { TokenService } from "./services/Token/Token.service";
-import { RefreshTokenUseCase } from "./application/use-case/Token/RefreshToken.usecase";
-import { IRefreshTokenUseCase } from "./application/use-case/Token/IRefreshToken.usecase";
-import { IGetUserUseCase } from "./application/use-case/getUser/IGetUser.usecase";
-import { GetUserUseCase } from "./application/use-case/getUser/GetUser.usecase";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -79,15 +67,6 @@ container.register<IGetUserUploadedPdfsUseCase>(
 container.register<IGeneratePdfUseCase>(USECASE_TOKEN.GENERATE_PDF_USECASE, {
   useClass: GeneratePdfUseCase,
 });
-
-container.register<IRefreshTokenUseCase>(USECASE_TOKEN.REFRESH_TOKEN_USECASE, {
-  useClass: RefreshTokenUseCase,
-});
-
-container.register<IGetUserUseCase>(USECASE_TOKEN.GET_USER_USECASE, {
-  useClass: GetUserUseCase,
-});
-
 // repository
 
 container.register<IPdfRepository>(REPOSITORY_TOKEN.PDF_REPOSITORY, {

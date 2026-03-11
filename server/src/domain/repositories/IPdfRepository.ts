@@ -5,4 +5,5 @@ export interface IPdfRepository {
   createNewPdf(data: CreatePdfRepositoryDto): Promise<IPdf>;
   findByById(_id: string): Promise<IPdf>;
   findByUserId(userId: string): Promise<IPdf[]>;
+  deleteById(_id: string): Promise<boolean>;
 }
