@@ -21,19 +21,19 @@ export class UploadPdfService implements IPdfUploadService {
   ): Promise<uploadPdfFileServiceResponseDto> {
     try {
       const { file } = data;
-      const uploadDir = path.join(process.cwd(), "uploads");
-
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir);
-      }
-
+      // const uploadDir = path.join(process.cwd(), "uploads");
       const fileName = Date.now() + "-" + file.originalname;
 
-      const filePath = path.join(uploadDir, fileName);
+      // if (!fs.existsSync(uploadDir)) {
+      //   fs.mkdirSync(uploadDir);
+      // }
 
-      await fs.promises.writeFile(filePath, file.buffer);
 
-      const cloudinaryUrl = await this.cloudinaryService.uploadPdf(file.buffer);
+      // const filePath = path.join(uploadDir, fileName);
+
+      // await fs.promises.writeFile(filePath, file.buffer);
+
+      const cloudinaryUrl = await this.cloudinaryService.uploadPdf(file.buffer, fileName);
 
       return {
         message: "PDF saved successfully",
