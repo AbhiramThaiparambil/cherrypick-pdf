@@ -2,6 +2,7 @@ export const SERVICE_TOKEN = {
   PDF_UPLOAD_SERVICE: "IPdfUploadService",
   PDF_THUMBNAIL_SERVICE: "IPdfThumbnailService",
   PDF_EXTRACT_SERVICE: "IPdfExtractService",
+  CLOUDINARY_SERVICE: "ICloudinaryService",
 };
 export const USECASE_TOKEN = {
   UPLOAD_PDF_USECASE: "IUploadPdfUsecase",

@@ -22,6 +22,8 @@ import { GetUserUploadedPdfsUseCase } from "./application/use-case/getUserUpload
 import { IGetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
 import { IDeletePdfUseCase } from "./application/use-case/deletePdf/IDeletePdfUseCase";
 import { DeletePdfUseCase } from "./application/use-case/deletePdf/DeletePdf.usecase";
+import { ICloudinaryService } from "./services/cloudinary/ICloudinary.service";
+import { CloudinaryService } from "./services/cloudinary/Cloudinary.service";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -33,6 +35,10 @@ container.register<IPdfThumbnailService>(SERVICE_TOKEN.PDF_THUMBNAIL_SERVICE, {
 
 container.register<IPdfExtractService>(SERVICE_TOKEN.PDF_EXTRACT_SERVICE, {
   useClass: PdfExtractService,
+});
+
+container.register<ICloudinaryService>(SERVICE_TOKEN.CLOUDINARY_SERVICE, {
+  useClass: CloudinaryService,
 });
 
 //usecase
