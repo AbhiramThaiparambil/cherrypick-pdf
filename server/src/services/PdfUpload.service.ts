@@ -5,9 +5,17 @@ import {
   uploadPdfFileServiceRequestDto,
   uploadPdfFileServiceResponseDto,
 } from "../application/dtos/service/uploadPdfFileService";
-import { injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
+import { ICloudinaryService } from "./cloudinary/ICloudinary.service";
+import { SERVICE_TOKEN } from "../constant/tocken";
+
 @injectable()
 export class UploadPdfService implements IPdfUploadService {
+  constructor(
+    @inject(SERVICE_TOKEN.CLOUDINARY_SERVICE)
+    private cloudinaryService: ICloudinaryService
+  ) {}
+
   async uploadPdf(
     data: uploadPdfFileServiceRequestDto,
   ): Promise<uploadPdfFileServiceResponseDto> {
@@ -25,10 +33,12 @@ export class UploadPdfService implements IPdfUploadService {
 
       await fs.promises.writeFile(filePath, file.buffer);
 
+      const cloudinaryUrl = await this.cloudinaryService.uploadPdf(file.buffer);
+
       return {
         message: "PDF saved successfully",
-        path: filePath,
-      };
+        path: cloudinaryUrl, 
+      }
     } catch (error) {
       console.error("Error uploading PDF:", error);
       throw new Error("Error occurred while uploading PDF");
