@@ -37,7 +37,7 @@ export function FileUploader({
       onDragLeave={onDragLeave}
       onDrop={onDrop}
       className={cn(
-        "relative flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed py-12 transition-all duration-200",
+        "relative flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed px-4 py-8 md:py-12 transition-all duration-200",
         "bg-card/50 hover:bg-accent/50",
         isDragging
           ? "border-primary bg-primary/5 scale-[1.01]"
@@ -66,7 +66,7 @@ export function FileUploader({
           </div>
 
           <div className="text-center">
-            <h3 className="text-xl font-semibold tracking-tight text-foreground">
+            <h3 className="text-lg md:text-xl font-semibold tracking-tight text-foreground">
               Upload New PDF
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

@@ -9,6 +9,7 @@ import { createPdf, deletePdfById, getUserPdfs } from "@/services/pdfservices";
 import { APPROUTES } from "@/constant/routes";
 import { useNavigate } from "react-router";
 import type { IUserUploadedPdf } from "@/types/IUserUploadedPdf";
+import { Menu, X } from "lucide-react";
 
 export default function HomePage() {
   const [isDragging, setIsDragging] = useState(false);
@@ -18,6 +19,7 @@ export default function HomePage() {
   const [userUploadedPdfs, setUserUploadedPdfs] = useState<IUserUploadedPdf[]>(
     [],
   );
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -94,22 +96,32 @@ export default function HomePage() {
     <div
       className={`min-h-screen font-sans transition-colors duration-300 bg-background`}
     >
-      <div className="flex h-[calc(100vh-56px)]">
-        <Sidebar userUploadedPdfs={userUploadedPdfs} deletePdf={deletePdf} isDeleting={isDeleting} />
-        <main className="flex-1 overflow-y-auto px-8 py-7 flex flex-col gap-7">
-          {uploadPdf && uploadPdf?.length > 0 && (
-            <div className="flex ">
-              {uploadPdf.map((d, i) => {
-                const src = URL.createObjectURL(d);
-                return (
-                  <>
-                    <iframe key={i} src={src} width="20%" height="100"></iframe>
-                  </>
-                );
-              })}
-            </div>
-          )}
+      <div className="flex h-[calc(100vh-56px)] relative">
+        <button
+          className="md:hidden fixed top-[68px] left-3 z-50 p-2 rounded-lg bg-background border border-border shadow-md"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
 
+        {isSidebarOpen && (
+          <div
+            className="md:hidden fixed inset-0 bg-black/40 z-30"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        <div
+          className={`
+            fixed md:static z-40 h-[calc(100vh-56px)] md:w-1/3  w-80 transition-transform duration-300 ease-in-out
+            ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+            md:translate-x-0
+          `}
+        >
+          <Sidebar userUploadedPdfs={userUploadedPdfs} deletePdf={deletePdf} isDeleting={isDeleting} />
+        </div>
+
+        <main className="flex-1 overflow-y-auto px-4 md:px-8 py-7 flex flex-col gap-7">
           <FileUploader
             isUploading={isUploading}
             setUploadPdf={(files: File[]) => setUploadPdf(files)}
@@ -141,3 +153,4 @@ export default function HomePage() {
     </div>
   );
 }
+
