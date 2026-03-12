@@ -26,8 +26,9 @@ export class GeneratePdfUseCase implements IGeneratePdfUseCase {
     if (!pdfData) {
       throw new Error("PDF not found");
     }
-
+    console.log(pdfData);
     const filePath = pdfData.originalPdfPath.path;
+    console.log(filePath);
 
     const buffer = await this.pdfExtractService.extractPages(filePath, pages);
 

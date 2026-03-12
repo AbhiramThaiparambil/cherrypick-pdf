@@ -30,6 +30,7 @@ const ExtractPage = () => {
       return;
     }
     const fetchThumbnails = async () => {
+      setLoading(true);
       try {
         const response = await getPdfthumbnails(id, limit, page);
         if (response.status === 200) {
@@ -67,7 +68,7 @@ const ExtractPage = () => {
       });
 
       const res = await promise;
-      downloadFile(res.data, "Generated_Document.pdf", "application/pdf");
+      downloadFile(res.data, `${pdfDetails.fileName.split(".")[0]}_extracted.pdf`, "application/pdf");
       console.log("Generating PDF with pages:", selectedPages);
     } catch (error) {
       console.log(error);
@@ -143,6 +144,7 @@ const ExtractPage = () => {
         limit={limit}
         totalCount={pdfDetails.totalCount}
         onPageChange={(newPage) => setPage(newPage)}
+        isLoading={loading}
       />
     </>
   );

@@ -1,21 +1,16 @@
 import { IPdfExtractService } from "./IPdfExtract.service";
-import { PDFDocument } from "pdf-lib";
-import fs from "fs";
-import { injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
+import { ICloudinaryService } from "../cloudinary/ICloudinary.service";
+import { SERVICE_TOKEN } from "../../constant/tocken";
+
 @injectable()
 export class PdfExtractService implements IPdfExtractService {
+  constructor(
+    @inject(SERVICE_TOKEN.CLOUDINARY_SERVICE)
+    private cloudinaryService: ICloudinaryService
+  ) {}
+
   async extractPages(filePath: string, pages: number[]): Promise<Buffer> {
-    const orginalPdfBytes = await fs.promises.readFile(filePath);
-    const orginalPdf = await PDFDocument.load(orginalPdfBytes);
-    const newPdf = await PDFDocument.create();
-
-    const pageIndex = pages.map((p) => p - 1);
-
-    const copiedPage = await newPdf.copyPages(orginalPdf, pageIndex);
-
-    copiedPage.forEach((page) => newPdf.addPage(page));
-
-    const pdfBytes = await newPdf.save();
-    return Buffer.from(pdfBytes);
+    return this.cloudinaryService.extractPdfPages(filePath, pages);
   }
 }

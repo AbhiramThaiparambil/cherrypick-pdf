@@ -14,7 +14,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ userUploadedPdfs, deletePdf, isDeleting }) => {
   return (
-    <aside className="w-64 border-r border-border bg-background flex flex-col h-screen">
+    <aside className="w-full border-r border-border bg-background flex flex-col h-full">
       <div className="px-6 pt-6 pb-2">
         <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/70 mb-4">
           Your Library

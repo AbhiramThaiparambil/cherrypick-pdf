@@ -20,6 +20,22 @@ import { IGeneratePdfUseCase } from "./application/use-case/generateNewPdf/IGene
 import { GeneratePdfUseCase } from "./application/use-case/generateNewPdf/GeneratePdfUseCase";
 import { GetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/GetUserUploadedPdfs.usecase";
 import { IGetUserUploadedPdfsUseCase } from "./application/use-case/getUserUploadedPdfs/IGetUserUploadedPdfsUseCase";
+import { IDeletePdfUseCase } from "./application/use-case/deletePdf/IDeletePdfUseCase";
+import { DeletePdfUseCase } from "./application/use-case/deletePdf/DeletePdf.usecase";
+import { ICloudinaryService } from "./services/cloudinary/ICloudinary.service";
+import { CloudinaryService } from "./services/cloudinary/Cloudinary.service";
+import { ISignupUseCase } from "./application/use-case/signup/ISignup.usecase";
+import { SignupUseCase } from "./application/use-case/signup/Signup.usecase";
+import { LoginUseCase } from "./application/use-case/login/Login.usecase";
+import { IUserRepository } from "./domain/repositories/IUserRepository";
+import { UserRepository } from "./infrastructure/repositories/User.repository";
+import { ILoginUseCase } from "./application/use-case/login/ILogin.usecase";
+import { IRefreshTokenUseCase } from "./application/use-case/Token/IRefreshToken.usecase";
+import { RefreshTokenUseCase } from "./application/use-case/Token/RefreshToken.usecase";
+import { ITokenService } from "./services/Token/IToken.service";
+import { TokenService } from "./services/Token/Token.service";
+import { IGetUserUseCase } from "./application/use-case/getUser/IGetUser.usecase";
+import { GetUserUseCase } from "./application/use-case/getUser/GetUser.usecase";
 
 container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
   useClass: UploadPdfService,
@@ -28,13 +44,16 @@ container.register<IPdfUploadService>(SERVICE_TOKEN.PDF_UPLOAD_SERVICE, {
 container.register<IPdfThumbnailService>(SERVICE_TOKEN.PDF_THUMBNAIL_SERVICE, {
   useClass: PdfThumbnailService,
 });
+container.register<ITokenService>(SERVICE_TOKEN.TOKEN_SERVICE, {
+  useClass: TokenService,
+});
 
 container.register<IPdfExtractService>(SERVICE_TOKEN.PDF_EXTRACT_SERVICE, {
   useClass: PdfExtractService,
 });
 
-container.register<ITokenService>(SERVICE_TOKEN.TOKEN_SERVICE, {
-  useClass: TokenService,
+container.register<ICloudinaryService>(SERVICE_TOKEN.CLOUDINARY_SERVICE, {
+  useClass: CloudinaryService,
 });
 
 //usecase
@@ -67,6 +86,18 @@ container.register<IGetUserUploadedPdfsUseCase>(
 container.register<IGeneratePdfUseCase>(USECASE_TOKEN.GENERATE_PDF_USECASE, {
   useClass: GeneratePdfUseCase,
 });
+container.register<IDeletePdfUseCase>(USECASE_TOKEN.DELETE_PDF_USECASE, {
+  useClass: DeletePdfUseCase,
+});
+
+container.register<IRefreshTokenUseCase>(USECASE_TOKEN.REFRESH_TOKEN_USECASE, {
+  useClass: RefreshTokenUseCase,
+});
+
+container.register<IGetUserUseCase>(USECASE_TOKEN.GET_USER_USECASE, {
+  useClass: GetUserUseCase,
+});
+
 // repository
 
 container.register<IPdfRepository>(REPOSITORY_TOKEN.PDF_REPOSITORY, {

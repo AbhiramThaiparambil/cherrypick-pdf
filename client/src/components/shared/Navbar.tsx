@@ -61,17 +61,15 @@ export default function Navbar() {
 
         <div className="flex items-center gap-1">
           {navLinks.map((nav) => (
-            <Link to={nav.link}>
+            <Link to={nav.link} key={nav.title}>
               <button
-                key={nav.title}
                 onClick={() => setActiveLink(nav.title)}
                 className={`
               px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150
-              ${
-                activeLink === nav.title
-                  ? "bg-secondary text-secondary-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
-              }
+              ${activeLink === nav.title
+                    ? "bg-secondary text-secondary-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }
                 `}
               >
                 {nav.title}
@@ -88,9 +86,9 @@ export default function Navbar() {
           >
             {theme == "dark" ? <Moon /> : <Sun />}
           </button>
-       
-{email &&          <UserMenu email={email} onLogout={handleLogout} />
-}        </div>
+
+          {email && <UserMenu email={email} onLogout={handleLogout} />
+          }        </div>
       </nav>
     </div>
   );

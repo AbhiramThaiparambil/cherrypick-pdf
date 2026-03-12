@@ -35,6 +35,8 @@ export class PdfController {
     try {
       console.log("---------");
       console.log(req.file);
+      const pdfBuffer = req.file?.buffer;
+        console.log(pdfBuffer)
       if (!req.file) {
         res.status(400).json({
           message: "PDF file not found",
@@ -85,10 +87,7 @@ export class PdfController {
     try {
       const { pdfId, pages } = req.body;
 
-      console.log(pdfId, pages);
-      console.log(
-        "------------------------------------------------------------",
-      );
+    
 
       const requestDTO: GeneratePdfRequestDTO = {
         pdfId,
@@ -101,7 +100,7 @@ export class PdfController {
 
       res.setHeader(
         "Content-Disposition",
-        `attachment; filename=${result.fileName}`,
+        `attachment; filename="${result.fileName}"`,
       );
 
       res.send(result.fileBuffer);
